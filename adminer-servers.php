@@ -155,6 +155,7 @@ $groupOptions = array_values(array_filter(array_unique(array_column($servers, 'g
     .server-detail i {
       color: var(--primary-color);
       width: 20px;
+      font-style: normal;
     }
 
     .login-btn {
@@ -256,38 +257,36 @@ $groupOptions = array_values(array_filter(array_unique(array_column($servers, 'g
       }
 
       serversGrid.innerHTML = serversToRender.map(server => `
-                <div class="server-card" data-id="${server.id}">
-                    <div class="server-name">
-                        ${server.name}
-                    </div>
-                    <div class="server-details">
-                        <div class="server-detail">
-                            <i>📍</i>
-                            <span>${server.host}</span>
-                        </div>
-                        <div class="server-detail">
-                            <i>👤</i>
-                            <span>${server.username}</span>
-                        </div>
-                        <div class="server-detail">
-                            <i>🗃️</i>
-                            <span>${server.database}</span>
-                        </div>
-                        <div class="server-detail">
-                            <i>🔧</i>
-                            <span>${server.group}</span>
-                        </div>
-                    </div>
-                    <form method="post" action="<?= $adminerUrl ?>" target="_blank" class="login-form">
-                        <input type="hidden" name="auth[driver]" value="${server.driver}">
-                        <input type="hidden" name="auth[server]" value="${server.host}">
-                        <input type="hidden" name="auth[username]" value="${server.username}">
-                        <input type="hidden" name="auth[password]" value="${server.password}">
-                        <input type="hidden" name="auth[db]" value="${server.database}">
-                        <input type="hidden" name="auth[permanent]" value="1">
-                        <button type="submit" class="login-btn">登录到数据库</button>
-                    </form>
-                </div>
+<div class="server-card" data-id="${server.id}">
+  <div class="server-name">${server.name}</div>
+  <div class="server-details">
+    <div class="server-detail">
+      <i>🔗</i>
+      <span>${server.host}</span>
+    </div>
+    <div class="server-detail">
+      <i>👨‍💻</i>
+      <span>${server.username}</span>
+    </div>
+    <div class="server-detail" style="display: ${server.database ? 'flex' : 'none'};">
+      <i>📒</i>
+      <span>${server.database}</span>
+    </div>
+    <div class="server-detail">
+      <i>🌐</i>
+      <span>${server.group}</span>
+    </div>
+  </div>
+  <form method="post" action="<?= $adminerUrl ?>" target="_blank" class="login-form">
+    <input type="hidden" name="auth[driver]" value="${server.driver}">
+    <input type="hidden" name="auth[server]" value="${server.host}">
+    <input type="hidden" name="auth[username]" value="${server.username}">
+    <input type="hidden" name="auth[password]" value="${server.password}">
+    <input type="hidden" name="auth[db]" value="${server.database}">
+    <input type="hidden" name="auth[permanent]" value="1">
+    <button type="submit" class="login-btn">登录到数据库</button>
+  </form>
+</div>
             `).join('');
     }
 
