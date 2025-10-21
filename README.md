@@ -18,7 +18,7 @@ adminer 快捷登录
       "group": "本地"
     },
     {
-      "driver": "server",
+      "driver": "pgsql",
       "name": "本地 PostgreSQL",
       "host": "127.0.0.1:5432",
       "username": "postgres",
