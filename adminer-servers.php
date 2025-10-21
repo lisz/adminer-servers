@@ -1,25 +1,6 @@
 <?php
 // driver: server=MySQL | pgsql=PostgreSQL
-$servers = [
-  [
-    'driver' => 'server',
-    'name' => "本地 MySQL",
-    'host' => "127.0.0.1",
-    'username' => "root",
-    'password' => "123456",
-    'database' => "",
-    'group' => "本地"
-  ],
-  [
-    'driver' => 'pgsql',
-    'name' => "本地 PostgreSQL",
-    'host' => "127.0.0.1:5437",
-    'username' => "postgres",
-    'password' => "123456",
-    'database' => "",
-    'group' => "本地"
-  ],
-];
+$servers = [];
 $adminerUrl = 'http://127.0.0.1/adminer/adminer-zh.php';
 
 $localFile = __DIR__ . '/.adminer-servers.json';
