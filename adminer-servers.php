@@ -20,7 +20,21 @@ $servers = [
     'group' => "本地"
   ],
 ];
-$adminerUrl = 'http://127.0.0.1:8080/adminer/adminer-zh.php';
+$adminerUrl = 'http://127.0.0.1/adminer/adminer-zh.php';
+
+$localFile = __DIR__ . '/.adminer-servers.json';
+if (file_exists($localFile)) {
+  $localConfig = json_decode(file_get_contents($localFile), true);
+  if (is_array($localConfig)) {
+    if (isset($localConfig['servers']) && is_array($localConfig['servers'])) {
+      $servers = array_merge($servers, $localConfig['servers']);
+    }
+    if (isset($localConfig['adminerUrl']) && is_string($localConfig['adminerUrl'])) {
+      $adminerUrl = $localConfig['adminerUrl'];
+    }
+  }
+}
+
 $groupOptions = array_values(array_filter(array_unique(array_column($servers, 'group'))));
 ?>
 <!DOCTYPE html>
@@ -114,7 +128,7 @@ $groupOptions = array_values(array_filter(array_unique(array_column($servers, 'g
 
     .servers-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
       gap: 20px;
     }
 
