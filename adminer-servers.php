@@ -1,5 +1,10 @@
 <?php
-// driver: server=MySQL | pgsql=PostgreSQL
+
+/**
+ * 数据库服务器快捷登录页面
+ * @author: Lis
+ * @date: 2025-10-30
+ */
 $servers = [];
 $adminerUrl = 'http://127.0.0.1/adminer/adminer-zh.php';
 
@@ -240,7 +245,6 @@ $groupOptions = array_values(array_filter(array_unique(array_column($servers, 'g
     </div>
 
     <div class="servers-grid" id="serversGrid">
-      <!-- 服务器卡片将通过JavaScript动态生成 -->
     </div>
 
     <footer>
@@ -250,7 +254,7 @@ $groupOptions = array_values(array_filter(array_unique(array_column($servers, 'g
 
   <script>
     // 模拟从PHP配置中读取的服务器列表
-    const servers = <?= empty($servers) ? '[]' : json_encode($servers, 384) ?>;
+    const servers = <?= empty($servers) ? '[]' : json_encode($servers) ?>;
     const driverMap = {
       server: {
         label: 'MySQL',
@@ -288,6 +292,7 @@ $groupOptions = array_values(array_filter(array_unique(array_column($servers, 'g
           label: server.driver,
           color: ''
         };
+        const adminerUrl = server.adminerUrl || '<?= $adminerUrl ?>';
 
         return `
 <div class="server-card" data-id="${server.id}">
@@ -311,7 +316,7 @@ $groupOptions = array_values(array_filter(array_unique(array_column($servers, 'g
       <span>${server.group}</span>
     </div>
   </div>
-  <form method="post" action="<?= $adminerUrl ?>" target="_blank" class="login-form">
+  <form method="post" action="${adminerUrl}" target="_blank" class="login-form">
     <input type="hidden" name="auth[driver]" value="${server.driver}">
     <input type="hidden" name="auth[server]" value="${server.host}">
     <input type="hidden" name="auth[username]" value="${server.username}">
