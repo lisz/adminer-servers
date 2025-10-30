@@ -114,6 +114,7 @@ $groupOptions = array_values(array_filter(array_unique(array_column($servers, 'g
     }
 
     .server-card {
+      position: relative;
       background-color: white;
       border-radius: 8px;
       box-shadow: var(--shadow);
@@ -132,6 +133,15 @@ $groupOptions = array_values(array_filter(array_unique(array_column($servers, 'g
       font-weight: 600;
       margin-bottom: 10px;
       color: var(--dark-color);
+    }
+
+    .server-type {
+      font-size: 14px;
+      font-weight: 600;
+      color: #2597f4ff;
+      position: absolute;
+      top: 10px;
+      right: 10px;
     }
 
     .server-details {
@@ -241,6 +251,28 @@ $groupOptions = array_values(array_filter(array_unique(array_column($servers, 'g
   <script>
     // 模拟从PHP配置中读取的服务器列表
     const servers = <?= empty($servers) ? '[]' : json_encode($servers, 384) ?>;
+    const driverMap = {
+      server: {
+        label: 'MySQL',
+        color: '#2ACF4F'
+      },
+      pgsql: {
+        label: 'PostgreSQL',
+        color: '#037BF8'
+      },
+      sqlite: {
+        label: 'SQLite',
+        color: '#42D7CB'
+      },
+      sqlsrv: {
+        label: 'SQL Server',
+        color: '#FF9E2B'
+      },
+      oracle: {
+        label: 'Oracle',
+        color: '#FF0030'
+      }
+    };
 
     // 渲染服务器卡片
     function renderServers(serversToRender) {
@@ -251,9 +283,16 @@ $groupOptions = array_values(array_filter(array_unique(array_column($servers, 'g
         return;
       }
 
-      serversGrid.innerHTML = serversToRender.map(server => `
+      serversGrid.innerHTML = serversToRender.map(server => {
+        const dbType = driverMap[server.driver] ? driverMap[server.driver] : {
+          label: server.driver,
+          color: ''
+        };
+
+        return `
 <div class="server-card" data-id="${server.id}">
   <div class="server-name">${server.name}</div>
+  <div class="server-type" style="color: ${dbType.color}">${dbType.label}</div>
   <div class="server-details">
     <div class="server-detail">
       <i>🔗</i>
@@ -282,7 +321,8 @@ $groupOptions = array_values(array_filter(array_unique(array_column($servers, 'g
     <button type="submit" class="login-btn">登录到数据库</button>
   </form>
 </div>
-            `).join('');
+            `
+      }).join('');
     }
 
     // 初始渲染
